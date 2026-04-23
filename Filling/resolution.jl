@@ -138,3 +138,37 @@ function isIntegerPoint(cb_data::CPLEX.CallbackContext, context_id::Clong)
         return true
     end
 end
+
+
+include("./io.jl")
+
+function solveDataSet(data_paths::Vector{String})
+	dossier = "./res"
+	i = 1
+	for path in data_paths
+		board = readInputFile(path)
+		res = cplexSolve(board)
+    
+		if !isdir(dossier)
+			mkdir(dossier)
+		end
+		
+		chemin_fichier = joinpath(dossier, "resolution_$i.txt")
+		open(chemin_fichier, "w") do f
+			write(f, "Solved instance path : $path\n")
+            write(f, "solveTime : $(res.time_taken)\n")
+            write(f, "isOptimal : $(res.optimality)\n")
+
+			for l in 1:size(res.solution)[1]
+                ligne_str = join(res.solution[l, :], ",")
+                write(f, "$ligne_str\n")
+			end
+
+		end
+		
+		i = i + 1
+
+	end
+
+	println("Résolution du dataset termine")
+end
