@@ -56,7 +56,7 @@ end
 
 
 function generateDataSet(nb_instances::Int)
-    dossier = "./data"
+    dossier = "../data"
     
     if !isdir(dossier)
         mkdir(dossier)

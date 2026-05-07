@@ -142,33 +142,145 @@ end
 
 include("./io.jl")
 
-function solveDataSet(data_paths::Vector{String})
-	dossier = "./res"
-	i = 1
+function solveDataSet(data_paths::Vector{String}, version::String)
+	dossier_base = "./res"
+		if !isdir(dossier_base)
+			mkdir(dossier_base)
+		end
+
+    i = 1
 	for path in data_paths
 		board = readInputFile(path)
-		res = cplexSolve(board)
-    
-		if !isdir(dossier)
-			mkdir(dossier)
+		if version == "heuristic"
+            res = heuristicSolve(board)
+            target_dir = joinpath(dossier_base, "heuristic")
+        else
+            res = cplexSolve(board)
+            target_dir = joinpath(dossier_base, "cplex")
+        end
+
+
+        if !isdir(target_dir)
+			mkdir(target_dir)
 		end
-		
-		chemin_fichier = joinpath(dossier, "resolution_$i.txt")
-		open(chemin_fichier, "w") do f
-			write(f, "Solved instance path : $path\n")
-            write(f, "solveTime : $(res.time_taken)\n")
-            write(f, "isOptimal : $(res.optimality)\n")
 
-			for l in 1:size(res.solution)[1]
-                ligne_str = join(res.solution[l, :], ",")
-                write(f, "$ligne_str\n")
-			end
+        chemin_fichier = joinpath(target_dir, "resolution_$i.txt")
 
+        open(chemin_fichier, "w") do f
+			write(f, "# Solved instance path : $path\n")
+            write(f, "solveTime = $(res.time_taken)\n")
+            write(f, "isOptimal = $(res.optimality)\n")
+
+            if res.solution !== nothing
+
+                for l in 1:size(res.solution)[1]
+                    ligne_str = join(res.solution[l, :], ",")
+                    write(f, "# $ligne_str\n")
+			
+                end
+            else
+                write(f, "Pas de solution trouvee\n")
+            end
 		end
 		
 		i = i + 1
 
 	end
 
-	println("Résolution du dataset termine")
+	println("Résolution du dataset terminée")
+end
+
+
+using Random
+
+function heuristicSolve(board::Matrix{Int}; time_limit::Float64 = 300.0)
+    Ti = time()
+    n, m = size(board)
+    
+    K = 9
+    
+    current_board = copy(board)
+
+    function isValidPartial(b::Matrix{Int})
+        visited = falses(n, m)
+        for i in 1:n
+            for j in 1:m
+                if b[i, j] != -1 && !visited[i, j]
+                    k = b[i, j]
+                    C_size = 0
+                    has_empty_neighbor = false
+                    
+                    Q = [(i, j)]
+                    visited[i, j] = true
+                    
+                    while !isempty(Q)
+                        u, v = popfirst!(Q)
+                        C_size += 1
+                        
+                        for (du, dv) in ((1, 0), (0, 1), (-1, 0), (0, -1))
+                            nu, nv = u + du, v + dv
+                            if 1 <= nu <= n && 1 <= nv <= m
+                                if b[nu, nv] == k && !visited[nu, nv]
+                                    visited[nu, nv] = true
+                                    push!(Q, (nu, nv))
+                                elseif b[nu, nv] == -1
+                                    has_empty_neighbor = true
+                                end
+                            end
+                        end
+                    end
+                    
+                    if C_size > k
+                        return false
+                    end
+                    
+                    if C_size < k && !has_empty_neighbor
+                        return false
+                    end
+                end
+            end
+        end
+        return true
+    end
+
+    function backtrack(idx::Int)
+        if time() - Ti > time_limit
+            return false
+        end
+
+        if idx > n * m
+            return isValidPartial(current_board)
+        end
+        
+
+        i = (idx - 1) % n + 1
+        j = (idx - 1) ÷ n + 1
+        
+        if current_board[i, j] != -1
+            return backtrack(idx + 1)
+        end
+
+        for k in 1:K
+            current_board[i, j] = k
+            
+            if isValidPartial(current_board)
+                if backtrack(idx + 1)
+                    return true
+                end
+            end
+        end
+
+        current_board[i, j] = -1
+        return false
+    end
+
+    success = backtrack(1)
+    Tf = time() - Ti
+
+    if success
+        return (solution = current_board, time_taken = Tf, sol_var = nothing, optimality = true)
+    else
+        println("Solution par algo heuristique non trouvée dans le temps imparti ($time_limit s).")
+        return (solution = nothing, time_taken = Tf, sol_var = nothing, optimality = false)
+    end
 end
