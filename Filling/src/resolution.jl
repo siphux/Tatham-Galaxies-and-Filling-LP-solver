@@ -143,7 +143,7 @@ end
 include("./io.jl")
 
 function solveDataSet(data_paths::Vector{String}, version::String)
-	dossier_base = "./res"
+	dossier_base = "../res"
 		if !isdir(dossier_base)
 			mkdir(dossier_base)
 		end

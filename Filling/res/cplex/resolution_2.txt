@@ -1,5 +1,5 @@
-# Solved instance path : ./data/instance_2.txt
-solveTime = 0.02804112434387207
+# Solved instance path : ../data/instance_2.txt
+solveTime = 0.06398510932922363
 isOptimal = true
 # 1,5,5,6,6,6,6
 # 7,7,5,5,6,1,6
