@@ -1,0 +1,6 @@
+solveTime = 0.0
+isOptimal = true
+n = 3
+m = 2
+centers = [(2.0, 1.0), (2.0, 2.5)]
+solution = [1, 2, 2, 1, 2, 2, 1, 2, 2]

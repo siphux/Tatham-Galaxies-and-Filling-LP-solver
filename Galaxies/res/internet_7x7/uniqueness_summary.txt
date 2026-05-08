@@ -1,0 +1,6 @@
+file;n;m;feasible;unique;total_time
+internet_7x7_01.txt;7;13;true;true;2.7089998722076416
+internet_7x7_02.txt;7;15;true;true;0.014999866485595703
+internet_7x7_03.txt;7;13;true;true;0.023999691009521484
+internet_7x7_04.txt;7;15;true;true;0.014999866485595703
+internet_7x7_05.txt;7;13;true;true;0.019999980926513672

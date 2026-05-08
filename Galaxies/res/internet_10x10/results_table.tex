@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\begin{document}
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lrrrr}
+\hline
+\textbf{Instance} & \multicolumn{2}{c}{\textbf{cplex}} & \multicolumn{2}{c}{\textbf{heuristic}}\\
+ & \textbf{Temps (s)} & \textbf{Resolue ?} & \textbf{Temps (s)} & \textbf{Resolue ?}\\ \hline
+internet\_10x10\_01.txt & 0.263 & Oui & 0.028 & Non\\
+internet\_10x10\_02.txt & 0.139 & Oui & 0.092 & Non\\
+internet\_10x10\_03.txt & 0.041 & Oui & 0.008 & Oui\\
+internet\_10x10\_04.txt & 0.05 & Oui & 0.041 & Non\\
+internet\_10x10\_05.txt & 0.074 & Oui & 0.025 & Non\\
+\hline
+\end{tabular}
+\end{center}
+\end{document}
