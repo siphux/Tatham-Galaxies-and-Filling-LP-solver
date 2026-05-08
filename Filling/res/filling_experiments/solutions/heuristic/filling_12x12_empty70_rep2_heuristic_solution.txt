@@ -1,0 +1,3 @@
+solveTime = 120.00027799606323
+isOptimal = false
+# Pas de solution trouvee

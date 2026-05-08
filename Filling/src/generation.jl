@@ -41,7 +41,12 @@ function generateInstance(nb_lignes::Int, nb_colonnes::Int, pourcentage_vide::Fl
         resultat = cplexSolve(grille_initiale)
     end
     
-    grille_resolue = resultat.solution
+
+    if resultat.solution === nothing
+    error("Impossible de générer une grille solution valide pour $(nb_lignes)x$(nb_colonnes).")
+    end
+
+    grille_resolue = copy(resultat.solution)
     instance_generee = copy(grille_resolue)
 
     nb_cases_a_vider = round(Int, nb_lignes * nb_colonnes * pourcentage_vide)

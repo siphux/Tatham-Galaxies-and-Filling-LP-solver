@@ -1,0 +1,6 @@
+pourcentage_vide,methode,nb_instances,nb_resolues,taux_reussite,temps_moyen,temps_max
+50.0,heuristic,6,6,100.0,14.371,51.5256
+60.0,heuristic,6,5,83.33,22.5326,120.0004
+70.0,heuristic,6,1,16.67,100.9341,120.0009
+80.0,heuristic,6,5,83.33,28.3364,120.0006
+90.0,heuristic,6,4,66.67,42.8621,120.003

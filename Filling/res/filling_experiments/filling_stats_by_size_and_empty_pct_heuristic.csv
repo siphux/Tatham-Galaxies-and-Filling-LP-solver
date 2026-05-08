@@ -1,0 +1,11 @@
+taille,pourcentage_vide,methode,nb_instances,nb_resolues,taux_reussite,temps_moyen,temps_max
+10x10,50.0,heuristic,3,3,100.0,0.8428,2.3104
+10x10,60.0,heuristic,3,3,100.0,3.236,9.5662
+10x10,70.0,heuristic,3,1,33.33,81.868,120.0009
+10x10,80.0,heuristic,3,3,100.0,16.3677,27.8595
+10x10,90.0,heuristic,3,2,66.67,40.7778,120.0003
+12x12,50.0,heuristic,3,3,100.0,27.8991,51.5256
+12x12,60.0,heuristic,3,2,66.67,41.8291,120.0004
+12x12,70.0,heuristic,3,0,0.0,120.0003,120.0003
+12x12,80.0,heuristic,3,2,66.67,40.305,120.0006
+12x12,90.0,heuristic,3,2,66.67,44.9465,120.003

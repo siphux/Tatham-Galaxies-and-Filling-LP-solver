@@ -1,0 +1,3 @@
+taille,methode,nb_instances,nb_resolues,taux_reussite,temps_moyen,temps_max
+10x10,heuristic,15,12,80.0,28.6185,120.0009
+12x12,heuristic,15,9,60.0,54.996,120.003
